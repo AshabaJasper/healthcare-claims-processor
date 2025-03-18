@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ClaimRecord {
+  id               Int      @id @default(autoincrement())
+  practiceName     String?
+  charge           String?
+  cptCode          String?
+  revenueCode      String?
+  levelOfCare      String?
+  chargeAmount     Float?
+  payment          Float?
+  allowedAmount    Float?
+  primaryGroup     String?
+  claimPrimaryID   String?
+  payerName        String?
+  payerGroup       String?
+  paymentTotal     Float?
+  paymentReceived  DateTime?
+  paymentEntered   DateTime?
+  chargeFromDate   DateTime?
+  chargeToDate     DateTime?
+  primaryInsZip    String?
+  primaryInsCity   String?
+  primaryInsState  String?
+  primaryInsAddr1  String?
+  patientZip       String?
+  patientCity      String?
+  patientState     String?
+  patientAddress1  String?
+  payerClass       String?
+  employerName     String?
+  prefix           String?
+  groupPolicy      String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([levelOfCare])
+  @@index([patientState])
+  @@index([payerName])
+  @@index([paymentReceived])
+  @@index([chargeFromDate])
+}
+
+model CalculatedMetrics {
+  id                  Int      @id @default(autoincrement())
+  levelOfCare         String
+  recordCount         Int
+  averageAllowedAmount Float
+  minAllowedAmount    Float
+  maxAllowedAmount    Float
+  medianAllowedAmount Float
+  modeAllowedAmount   Float
+  stateTreatedAt      String?
+  payerName           String?
+  payerClass          String?
+  employerName        String?
+  prefix              String?
+  groupPolicy         String?
+  policyHolderState   String?
+  serviceYear         Int?
+  paymentReceivedYear Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([levelOfCare, stateTreatedAt, payerName, payerClass, serviceYear, paymentReceivedYear])
+}
