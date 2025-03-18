@@ -15,7 +15,7 @@ model ClaimRecord {
   practiceName     String?
   charge           String?
   cptCode          String?
-  revenueCode      String?
+  revenueCode      Int?
   levelOfCare      String?
   chargeAmount     Float?
   payment          Float?
